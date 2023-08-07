@@ -1,4 +1,5 @@
 import NavLink from "@/Components/NavLink.jsx"
+import {router} from "@inertiajs/react";
 
 /**
  * Check if the current route is a package route
@@ -11,6 +12,14 @@ const isPackageRoute = (route) => {
         route().current("package.create") ||
         route().current("package.services") ||
         route().current("package.edit")
+    )
+}
+
+const isClientRoute = (route) => {
+    return (
+        route().current("client.index") ||
+        route().current("client.create") ||
+        route().current("client.edit")
     )
 }
 
@@ -76,7 +85,7 @@ export default function Navigation() {
                     </svg>
                     Packages
                 </NavLink>
-                <NavLink href={""} active={""}>
+                <NavLink href={route('client.index')} active={isClientRoute(route)}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

@@ -18,9 +18,9 @@ class PackageRepository
     }
 
     public function store(
+        int    $userId,
         string $name,
         float  $charges,
-        int    $userId,
         string $description = null,
     ): Package
     {
