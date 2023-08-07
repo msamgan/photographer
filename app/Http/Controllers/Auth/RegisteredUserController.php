@@ -76,7 +76,7 @@ class RegisteredUserController extends Controller
             JobType::create([
                 'user_id' => $user->id,
                 'uuid' => Str::uuid()->toString(),
-                'name' => $jobType,
+                'name' => strtolower($jobType),
             ]);
         });
     }

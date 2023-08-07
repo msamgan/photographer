@@ -27,5 +27,5 @@ require __DIR__ . '/auth.php';
 Route::middleware('auth')->group(function () {
     Route::get('/job-types', [JobTypeController::class, 'index'])->name('job-type.index');
     Route::post('/job-types', [JobTypeController::class, 'store'])->name('job-type.store');
-    Route::get('/job-types/{jobType}/destroy', [JobTypeController::class, 'update'])->name('job-type.destroy');
+    Route::get('/job-types/{jobType}/destroy', [JobTypeController::class, 'destroy'])->name('job-type.destroy');
 });
