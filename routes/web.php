@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobTypeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,3 +32,9 @@ require __DIR__ . '/clients.php';
 require __DIR__ . '/packages.php';
 require __DIR__ . '/profile.php';
 require __DIR__ . '/auth.php';
+
+Route::middleware('auth')->group(function () {
+    Route::get('/job-types', [JobTypeController::class, 'index'])->name('job-type.index');
+    Route::post('/job-types', [JobTypeController::class, 'store'])->name('job-type.store');
+    Route::get('/job-types/{jobType}/destroy', [JobTypeController::class, 'destroy'])->name('job-type.destroy');
+});
