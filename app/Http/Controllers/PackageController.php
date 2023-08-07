@@ -45,9 +45,9 @@ class PackageController extends Controller
         ]);
 
         $this->packageRepository->store(
+            auth()->id(),
             $validated['name'],
             $validated['charges'],
-            auth()->id(),
             $request->get('description'),
         );
 

@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('user_id');
             $table->string('name');
             $table->string('spouse_name')->nullable();

@@ -37,7 +37,7 @@ export default function PackageListing({auth, packagesData}) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Listing Packages</h2>}
         >
-            <Head title="Services"/>
+            <Head title="Packages"/>
 
             <AddLinkButton link={route("package.create")} label="Add Pakage"/>
 
