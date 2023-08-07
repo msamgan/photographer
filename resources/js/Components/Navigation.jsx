@@ -23,6 +23,14 @@ const isClientRoute = (route) => {
     )
 }
 
+const isJobRoute = (route) => {
+    return (
+        route().current("job.index") ||
+        route().current("job.create") ||
+        route().current("job.edit")
+    )
+}
+
 /**
  * Navigation component
  * @returns {JSX.Element}
@@ -102,7 +110,7 @@ export default function Navigation() {
                     </svg>
                     Clients
                 </NavLink>
-                <NavLink href={""} active={""}>
+                <NavLink href={route('job.index')} active={isJobRoute(route)}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
