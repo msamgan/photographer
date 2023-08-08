@@ -64,22 +64,7 @@ class JobController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'client' => ['required', 'exists:clients,uuid'],
-            'job_type' => ['required', 'exists:job_types,uuid'],
-            'package_type' => ['required', 'exists:packages,uuid'],
-            'charges' => ['required', 'numeric'],
-            'initial_deposits' => ['required', 'numeric'],
-            'event_name' => ['required', 'array'],
-            'event_name.*' => ['required', 'string', 'max:255'],
-            'event_date' => ['required', 'array'],
-            'event_date.*' => ['required', 'date', 'after_or_equal:today'],
-            'event_time' => ['required', 'array'],
-            'event_time.*' => ['required', 'date_format:H:i'],
-            'event_location' => ['required', 'array'],
-            'event_location.*' => ['required', 'string', 'max:255'],
-        ]);
+        $validated = $request->validate($this->jobValidations());
 
         $this->jobRepository->store(
             auth()->id(),
@@ -98,12 +83,9 @@ class JobController extends Controller
         return back();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function update(UserJob $job, Request $request)
+    private function jobValidations(): array
     {
-        $validated = $request->validate([
+        return [
             'name' => ['required', 'string', 'max:255'],
             'client' => ['required', 'exists:clients,uuid'],
             'job_type' => ['required', 'exists:job_types,uuid'],
@@ -118,7 +100,15 @@ class JobController extends Controller
             'event_time.*' => ['required', 'date_format:H:i'],
             'event_location' => ['required', 'array'],
             'event_location.*' => ['required', 'string', 'max:255'],
-        ]);
+        ];
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function update(UserJob $job, Request $request): RedirectResponse
+    {
+        $validated = $request->validate($this->jobValidations());
 
         $this->jobRepository->update(
             $job,
