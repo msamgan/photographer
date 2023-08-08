@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\UserJob;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -13,25 +14,26 @@ class JobRepository
      * @throws Exception
      */
     public function store(
-        int $userId,
+        int    $userId,
         string $name,
-        int $clientId,
-        int $jobTypeId,
-        int $packageId,
-        float $charges,
-        float $initialDeposits,
-        array $eventNames,
-        array $eventDates,
-        array $eventTimes,
-        array $eventLocations
-    ): UserJob {
+        int    $clientId,
+        int    $jobTypeId,
+        int    $packageId,
+        float  $charges,
+        float  $initialDeposits,
+        array  $eventNames,
+        array  $eventDates,
+        array  $eventTimes,
+        array  $eventLocations
+    ): UserJob
+    {
 
         DB::beginTransaction();
 
         try {
             $job = UserJob::create([
                 'user_id' => $userId,
-                'uuid' =>  Str::uuid()->toString(),
+                'uuid' => Str::uuid()->toString(),
                 'name' => $name,
                 'client_id' => $clientId,
                 'job_type_id' => $jobTypeId,
@@ -59,5 +61,21 @@ class JobRepository
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function userJobs($userId): Collection|array
+    {
+        return UserJob::query()->select([
+            'id',
+            'uuid',
+            'name',
+            'charges',
+            'initial_deposits',
+            'status',
+            'client_id',
+            'job_type_id',
+            'package_id',
+            'created_at',
+        ])->with(['events', 'client', 'jobType', 'package'])->where('user_id', $userId)->orderByDesc('id')->get();
     }
 }

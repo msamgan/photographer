@@ -29,7 +29,13 @@ class UserJob extends Model
     protected $casts = [
         'charges' => 'decimal:2',
         'initial_deposits' => 'decimal:2',
+        'created_at' => 'datetime:d M Y',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     public function user(): BelongsTo
     {

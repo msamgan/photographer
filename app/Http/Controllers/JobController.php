@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\JobType;
 use App\Models\Package;
+use App\Models\UserJob;
 use App\Repositories\ClientRepository;
 use App\Repositories\JobRepository;
 use App\Repositories\PackageRepository;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -32,7 +34,7 @@ class JobController extends Controller
     public function index(): Response|ResponseFactory
     {
         return inertia('Job/Index')->with([
-            'jobs' => collect([]),
+            'jobs' => $this->jobRepository->userJobs(auth()->id()),
         ]);
     }
 
@@ -87,5 +89,21 @@ class JobController extends Controller
         );
 
         return back();
+    }
+
+    public function destroy(UserJob $job)
+    {
+        DB::beginTransaction();
+        try {
+            $job->events()->delete();
+            $job->delete();
+
+            DB::commit();
+
+            return back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors($e->getMessage());
+        }
     }
 }

@@ -17,4 +17,9 @@ class UserJobEvents extends Model
         'event_time',
         'event_location',
     ];
+
+    protected $casts = [
+        'event_date' => 'datetime:d M Y',
+        'event_time' => 'datetime:H:i',
+    ];
 }

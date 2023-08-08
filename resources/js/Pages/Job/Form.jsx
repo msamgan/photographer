@@ -2,13 +2,13 @@ import InputLabel from "@/Components/InputLabel.jsx"
 import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 import Select from "react-select"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 
 const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) => {
     return (
         <div id={nextIndex} className={"mt-3 flex flex-row gap-5 w-2/3"}>
             <div className={"w-1/4"}>
-                <InputLabel htmlFor={"event_name-" + nextIndex} value="Event Name" isRequired={true} />
+                <InputLabel htmlFor={"event_name-" + nextIndex} value="Event Name" isRequired={true}/>
                 <TextInput
                     value={data.event_name[nextIndex]}
                     onChange={(e) => {
@@ -23,7 +23,7 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
                 />
             </div>
             <div className={"w-1/4"}>
-                <InputLabel htmlFor={"event_location-" + nextIndex} value="Event Location" isRequired={true} />
+                <InputLabel htmlFor={"event_location-" + nextIndex} value="Event Location" isRequired={true}/>
                 <TextInput
                     id={"event_location-" + nextIndex}
                     value={data.event_location[nextIndex]}
@@ -38,7 +38,7 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
                 />
             </div>
             <div className={"w-1/4"}>
-                <InputLabel htmlFor={"event_date-" + nextIndex} value="Event Date" isRequired={true} />
+                <InputLabel htmlFor={"event_date-" + nextIndex} value="Event Date" isRequired={true}/>
                 <TextInput
                     id={"event_date-" + nextIndex}
                     value={data.event_date[nextIndex]}
@@ -53,7 +53,7 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
                 />
             </div>
             <div className={"w-1/4"}>
-                <InputLabel htmlFor={"event_time-" + nextIndex} value="Event Time" isRequired={true} />
+                <InputLabel htmlFor={"event_time-" + nextIndex} value="Event Time" isRequired={true}/>
                 <TextInput
                     id={"event_time-" + nextIndex}
                     value={data.event_time[nextIndex]}
@@ -96,7 +96,7 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
                             stroke="currentColor"
                             className="w-6 h-6"
                         >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15"/>
                         </svg>
                     </button>
                 </span>
@@ -105,7 +105,7 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
     )
 }
 
-export default function PackageForm({ data, setData, errors, refs, attributes }) {
+export default function PackageForm({data, setData, errors, refs, attributes}) {
     const [showCharges, setShowCharges] = useState(false)
     const [additionalEvents, setAdditionalEvents] = useState([])
     const [eventCount, setEventCount] = useState(0)
@@ -119,7 +119,7 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
     return (
         <div>
             <div className={"mt-3"}>
-                <InputLabel htmlFor="name" value="Job Title" isRequired={true} />
+                <InputLabel htmlFor="name" value="Job Title" isRequired={true}/>
                 <TextInput
                     id="name"
                     ref={refs.nameInput}
@@ -130,11 +130,11 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                     autoComplete="name"
                     isFocused={true}
                 />
-                <InputError message={errors.name} className="mt-2" />
+                <InputError message={errors.name} className="mt-2"/>
             </div>
             <span className={"flex flex-row gap-3 w-2/3"}>
                 <div className={"mt-3 w-1/3"}>
-                    <InputLabel htmlFor="client" value="Client Name" isRequired={true} />
+                    <InputLabel htmlFor="client" value="Client Name" isRequired={true}/>
                     <Select
                         id="client"
                         ref={refs.clientInput}
@@ -143,10 +143,10 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                         className="mt-1 w-full"
                         autoComplete="client"
                     />
-                    <InputError message={errors.client} className="mt-2" />
+                    <InputError message={errors.client} className="mt-2"/>
                 </div>
                 <div className={"mt-3 w-1/3"}>
-                    <InputLabel htmlFor="job_type" value="Job Type" isRequired={true} />
+                    <InputLabel htmlFor="job_type" value="Job Type" isRequired={true}/>
                     <Select
                         id="job_type"
                         ref={refs.jobTypeInput}
@@ -155,10 +155,10 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                         className="mt-1 w-full"
                         autoComplete="job_type"
                     />
-                    <InputError message={errors.job_type} className="mt-2" />
+                    <InputError message={errors.job_type} className="mt-2"/>
                 </div>
                 <div className={"mt-3 w-1/3"}>
-                    <InputLabel htmlFor="package_type" value="Package" isRequired={true} />
+                    <InputLabel htmlFor="package_type" value="Package" isRequired={true}/>
                     <Select
                         id="package_type"
                         ref={refs.packageInput}
@@ -181,12 +181,12 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                         className="mt-1 w-full"
                         autoComplete="package_type"
                     />
-                    <InputError message={errors.package_type} className="mt-2" />
+                    <InputError message={errors.package_type} className="mt-2"/>
                 </div>
             </span>
             <span className={"flex flex-row gap-3 w-2/3" + (showCharges ? "" : " hidden")}>
                 <div className={"mt-3 w-1/2"}>
-                    <InputLabel htmlFor="charges" value="Package Charges (USD)" isRequired={true} />
+                    <InputLabel htmlFor="charges" value="Package Charges (USD)" isRequired={true}/>
                     <TextInput
                         id="charges"
                         ref={refs.chargesInput}
@@ -196,10 +196,10 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                         className="mt-1 w-full"
                         autoComplete="charges"
                     />
-                    <InputError message={errors.charges} className="mt-2" />
+                    <InputError message={errors.charges} className="mt-2"/>
                 </div>
                 <div className={"mt-3 w-1/2"}>
-                    <InputLabel htmlFor="initial_deposits" value="Intial Deposits (USD)" isRequired={true} />
+                    <InputLabel htmlFor="initial_deposits" value="Intial Deposits (USD)" isRequired={true}/>
                     <TextInput
                         id="initial_deposits"
                         ref={refs.initialDepositsInput}
@@ -209,7 +209,7 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                         className="mt-1 w-full"
                         autoComplete="initial_deposits"
                     />
-                    <InputError message={errors.initial_deposits} className="mt-2" />
+                    <InputError message={errors.initial_deposits} className="mt-2"/>
                 </div>
             </span>
             <h5 className={"mt-5 text-lg font-bold"}>Events</h5>
@@ -239,7 +239,7 @@ export default function PackageForm({ data, setData, errors, refs, attributes })
                                 stroke="currentColor"
                                 className="w-6 h-6 mr-2"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                             </svg>
                             Add Event
                         </span>
