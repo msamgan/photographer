@@ -85,8 +85,7 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
 }
 
 export default function PackageServices({ auth, packageData }) {
-    const [additionalServices, setAdditionalServices] = useState([])
-    const [servicesCount, setServicesCount] = useState(0)
+    const [servicesCount, setServicesCount] = useState(1)
 
     const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: [],
@@ -96,7 +95,7 @@ export default function PackageServices({ auth, packageData }) {
     const updateData = async (services) => {
         let name = []
         let description = []
-        packageData.services.map((service, index) => {
+        services.map((service, index) => {
             name[index] = service.name
             description[index] = service.description
         })
@@ -108,45 +107,30 @@ export default function PackageServices({ auth, packageData }) {
     }
 
     useEffect(() => {
-        if (packageData.services.length > 0) {
-            setServicesCount(packageData.services.length - 1)
-
-            async function fetchData() {
-                await updateData(packageData.services)
-            }
-
-            fetchData().then((r) => {
-                // console.log('Data updated')
-            })
+        if (packageData.services.length === 0) {
+            return
         }
-    }, [])
 
-    const addAdditionalService = () => {
-        let nextIndex = servicesCount + 1
-        setServicesCount(nextIndex)
-        setAdditionalServices([...additionalServices, serviceInputs(nextIndex, data, setData, errors, true)])
-    }
+        setServicesCount(packageData.services.length)
+
+        async function fetchData() {
+            await updateData(packageData.services)
+        }
+
+        fetchData().then((r) => {
+            // console.log('Data updated')
+        })
+    }, [])
 
     const submit = (e) => {
         e.preventDefault()
-        //setRenderAdditionalServices(false)
         post(route("package.services.store", packageData.uuid), {
             preserveScroll: true,
-            onSuccess: () => {
-                // console.log('success')
-            },
-            onError: (errors) => {
-                // console.log(errors)
-            },
-            onFinish: () => {
-                setAdditionalServices([])
-            }
+            onSuccess: () => {},
+            onError: (errors) => {},
+            onFinish: () => {}
         })
     }
-
-    useEffect(() => {
-        console.log("additionalServices", additionalServices)
-    }, [additionalServices])
 
     return (
         <AuthenticatedLayout
@@ -176,18 +160,13 @@ export default function PackageServices({ auth, packageData }) {
                 )}
 
                 <form onSubmit={submit} method={"post"} className="mt-6 space-y-6">
-                    {packageData.services.length > 0 &&
-                        packageData.services.map((service, index) => {
-                            return <div key={index}>{serviceInputs(index, data, setData, errors, !!index)}</div>
-                        })}
 
-                    {packageData.services &&
-                        packageData.services.length === 0 &&
-                        serviceInputs(0, data, setData, errors)}
-
-                    {additionalServices.map((service, index) => {
-                        return <div key={index}>{service}</div>
-                    })}
+                    {
+                        Array(servicesCount).fill(null).map((_, index) => {
+                                return <div key={index}>{serviceInputs(index, data, setData, errors, !!index)}</div>
+                            }
+                        )
+                    }
 
                     <div className={"mt-4 w-2/3"}>
                         <span className={"has-tooltip"}>
@@ -198,10 +177,10 @@ export default function PackageServices({ auth, packageData }) {
                                 className={"mt-1 bg-yellow-500 p-1 rounded text-white w-full"}
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    addAdditionalService()
+                                    setServicesCount(servicesCount + 1)
                                 }}
                             >
-                                <span className={'flex flex-row justify-center'}>
+                                <span className={"flex flex-row justify-center"}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -215,7 +194,8 @@ export default function PackageServices({ auth, packageData }) {
                                             strokeLinejoin="round"
                                             d="M12 4.5v15m7.5-7.5h-15"
                                         />
-                                    </svg> Add Service
+                                    </svg>
+                                    Add Service
                                 </span>
                             </button>
                         </span>

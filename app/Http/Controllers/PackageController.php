@@ -123,15 +123,14 @@ class PackageController extends Controller
         return back()->withErrors(['error' => 'Something went wrong in saving the services']);
     }
 
+    /**
+     * @throws Exception
+     */
     public function replicate(Package $package): RedirectResponse
     {
-        $packageReplicated = $this->packageRepository->replicate($package);
+        $this->packageRepository->replicate($package);
 
-        if ($packageReplicated) {
-            return back();
-        }
-
-        return back()->withErrors(['error' => 'Something went wrong in replicating the package']);
+        return back();
     }
 
     public function destroy(Package $package)

@@ -61,6 +61,9 @@ export default function PackageListing({ auth, packagesData }) {
                                 Charges
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                Initial Deposits
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Description
                             </th>
                             <th scope="col" className="px-6 py-3">
@@ -84,7 +87,10 @@ export default function PackageListing({ auth, packagesData }) {
                                     <td className="px-6 py-4">
                                         {listing.charges} {"USD"}
                                     </td>
-                                    <td className="px-6 py-4">{listing.description}</td>
+                                    <td className="px-6 py-4">
+                                        {listing.initial_deposits} {"USD"}
+                                    </td>
+                                    <td className="px-6 py-4 sm:max-w-sm">{listing.description}</td>
                                     <td className="px-6 py-4">
                                         <span className={"has-tooltip"}>
                                             <span
