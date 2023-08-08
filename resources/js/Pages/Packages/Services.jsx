@@ -10,8 +10,8 @@ import InputError from "@/Components/InputError.jsx"
 
 const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = false) => {
     return (
-        <div id={nextIndex} className={"mt-3 flex flex-row gap-5"}>
-            <div className={"w-1/4"}>
+        <div id={nextIndex} className={"mt-3 flex flex-row gap-5 w-2/3"}>
+            <div className={"w-1/3"}>
                 <InputLabel htmlFor={"name-" + nextIndex} value="Service Name" isRequired={true} />
                 <TextInput
                     value={data.name[nextIndex]}
@@ -27,7 +27,7 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
                     isFocused={true}
                 />
             </div>
-            <div className={"w-full"}>
+            <div className={"w-2/3"}>
                 <InputLabel
                     htmlFor={"description-" + nextIndex}
                     value="Service Description"
@@ -42,7 +42,7 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
                         setData("description", newData.description)
                     }}
                     type="text"
-                    className="mt-1 w-3/4"
+                    className="mt-1 w-full"
                     autoComplete="description"
                 />
             </div>
@@ -189,35 +189,40 @@ export default function PackageServices({ auth, packageData }) {
                         return <div key={index}>{service}</div>
                     })}
 
-                    <div className="flex items-center gap-4">
-                        <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <div className={"mt-4 w-2/3"}>
                         <span className={"has-tooltip"}>
                             <span className="tooltip rounded shadow-lg p-2 bg-gray-100 text-black -mt-8">
                                 Add more services to package
                             </span>
                             <button
-                                className={"mt-1 bg-yellow-500 p-1 rounded text-white"}
+                                className={"mt-1 bg-yellow-500 p-1 rounded text-white w-full"}
                                 onClick={(e) => {
                                     e.preventDefault()
                                     addAdditionalService()
                                 }}
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M12 4.5v15m7.5-7.5h-15"
-                                    />
-                                </svg>
+                                <span className={'flex flex-row justify-center'}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 mr-2"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 4.5v15m7.5-7.5h-15"
+                                        />
+                                    </svg> Add Service
+                                </span>
                             </button>
                         </span>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <PrimaryButton disabled={processing}>Save</PrimaryButton>
                         <TransactionNotification recentlySuccessful={recentlySuccessful} />
                     </div>
                 </form>

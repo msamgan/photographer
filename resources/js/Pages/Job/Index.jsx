@@ -41,6 +41,9 @@ export default function PackageListing({ auth, jobs }) {
                                 Name
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                client
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Type
                             </th>
                             <th scope="col" className="px-6 py-3">
@@ -66,6 +69,9 @@ export default function PackageListing({ auth, jobs }) {
                                 >
                                     <td className="px-6 py-4" scope="row">
                                         {listing.name}
+                                    </td>
+                                    <td className="px-6 py-4" scope="row">
+                                        {listing.client.name}
                                     </td>
                                     <td className="px-6 py-4">{listing.job_type.name}</td>
                                     <td className="px-6 py-4">
