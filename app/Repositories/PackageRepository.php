@@ -7,6 +7,7 @@ use App\Models\PackageService;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -18,13 +19,12 @@ class PackageRepository
     }
 
     public function store(
-        int    $userId,
+        int $userId,
         string $name,
-        float  $charges,
-        float  $initialDeposits,
+        float $charges,
+        float $initialDeposits,
         string $description = null,
-    ): Package
-    {
+    ): Package {
         return Package::create([
             'uuid' => Str::uuid()->toString(),
             'name' => strtolower($name),
@@ -37,12 +37,11 @@ class PackageRepository
 
     public function update(
         Package $package,
-        string  $name,
-        float   $charges,
-        float   $initialDeposits,
-        string  $description = null,
-    ): Package
-    {
+        string $name,
+        float $charges,
+        float $initialDeposits,
+        string $description = null,
+    ): Package {
         $package->update([
             'name' => strtolower($name),
             'description' => strtolower($description),
@@ -99,7 +98,7 @@ class PackageRepository
     /**
      * @throws Exception
      */
-    public function replicate($package): Package
+    public function replicate($package): Builder|array|Collection|Model
     {
         DB::beginTransaction();
 
@@ -108,7 +107,7 @@ class PackageRepository
 
             $newPackage = Package::create([
                 'uuid' => Str::uuid()->toString(),
-                'name' => $package->name . ' (replicated)',
+                'name' => $package->name.' (replicated)',
                 'description' => $package->description,
                 'charges' => $package->charges,
                 'initial_deposits' => $package->initial_deposits,

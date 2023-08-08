@@ -14,19 +14,18 @@ class JobRepository
      * @throws Exception
      */
     public function store(
-        int    $userId,
+        int $userId,
         string $name,
-        int    $clientId,
-        int    $jobTypeId,
-        int    $packageId,
-        float  $charges,
-        float  $initialDeposits,
-        array  $eventNames,
-        array  $eventDates,
-        array  $eventTimes,
-        array  $eventLocations
-    ): UserJob
-    {
+        int $clientId,
+        int $jobTypeId,
+        int $packageId,
+        float $charges,
+        float $initialDeposits,
+        array $eventNames,
+        array $eventDates,
+        array $eventTimes,
+        array $eventLocations
+    ): UserJob {
 
         DB::beginTransaction();
 
@@ -65,18 +64,17 @@ class JobRepository
 
     public function update(
         UserJob $job,
-        string  $name,
-        int     $clientId,
-        int     $jobTypeId,
-        int     $packageId,
-        float   $charges,
-        float   $initialDeposits,
-        array   $eventNames,
-        array   $eventDates,
-        array   $eventTimes,
-        array   $eventLocations
-    ): UserJob
-    {
+        string $name,
+        int $clientId,
+        int $jobTypeId,
+        int $packageId,
+        float $charges,
+        float $initialDeposits,
+        array $eventNames,
+        array $eventDates,
+        array $eventTimes,
+        array $eventLocations
+    ): UserJob {
         DB::beginTransaction();
 
         try {

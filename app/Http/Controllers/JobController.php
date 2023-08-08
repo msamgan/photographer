@@ -154,6 +154,7 @@ class JobController extends Controller
             return back();
         } catch (Exception $e) {
             DB::rollBack();
+
             return back()->withErrors($e->getMessage());
         }
     }

@@ -160,13 +160,11 @@ export default function PackageServices({ auth, packageData }) {
                 )}
 
                 <form onSubmit={submit} method={"post"} className="mt-6 space-y-6">
-
-                    {
-                        Array(servicesCount).fill(null).map((_, index) => {
-                                return <div key={index}>{serviceInputs(index, data, setData, errors, !!index)}</div>
-                            }
-                        )
-                    }
+                    {Array(servicesCount)
+                        .fill(null)
+                        .map((_, index) => {
+                            return <div key={index}>{serviceInputs(index, data, setData, errors, !!index)}</div>
+                        })}
 
                     <div className={"mt-4 w-2/3"}>
                         <span className={"has-tooltip"}>

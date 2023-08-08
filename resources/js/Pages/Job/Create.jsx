@@ -1,13 +1,13 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
-import {Head, useForm} from "@inertiajs/react"
+import { Head, useForm } from "@inertiajs/react"
 import PageCard from "@/Components/PageCard.jsx"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import {useRef, useState} from "react"
+import { useRef, useState } from "react"
 import TransactionNotification from "@/Components/TransactionNotification.jsx"
 import Form from "@/Pages/Job/Form.jsx"
 import InputError from "@/Components/InputError.jsx"
 
-export default function PackageCreate({auth, clients, jobTypes, packages}) {
+export default function PackageCreate({ auth, clients, jobTypes, packages }) {
     const nameInput = useRef()
     const chargesInput = useRef()
     const initialDepositsInput = useRef()
@@ -33,7 +33,7 @@ export default function PackageCreate({auth, clients, jobTypes, packages}) {
         }
     })
 
-    const {data, setData, errors, post, reset, processing, recentlySuccessful} = useForm({
+    const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: "",
         client: "",
         job_type: "",
@@ -72,13 +72,13 @@ export default function PackageCreate({auth, clients, jobTypes, packages}) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Job</h2>}
         >
-            <Head title="Create Job"/>
+            <Head title="Create Job" />
 
             <PageCard header={"Create Job"} header_description={"Create a new job."}>
                 {errors && (
                     <div className={"mt-4"}>
                         {Object.keys(errors).map((error, index) => {
-                            return <InputError key={index} message={errors[error]} className="mt-1"/>
+                            return <InputError key={index} message={errors[error]} className="mt-1" />
                         })}
                     </div>
                 )}
@@ -102,7 +102,7 @@ export default function PackageCreate({auth, clients, jobTypes, packages}) {
                     ></Form>
                     <div className="flex items-center gap-4">
                         <PrimaryButton disabled={processing}>Save</PrimaryButton>
-                        <TransactionNotification recentlySuccessful={recentlySuccessful}/>
+                        <TransactionNotification recentlySuccessful={recentlySuccessful} />
                     </div>
                 </form>
             </PageCard>

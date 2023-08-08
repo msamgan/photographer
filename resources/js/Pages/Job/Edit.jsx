@@ -81,9 +81,7 @@ export default function PackageEdit({ auth, clients, jobTypes, packages, job }) 
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Edit Job | {job.name}
-                </h2>
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Job | {job.name}</h2>
             }
         >
             <Head title={"Edit Job | " + job.name} />
