@@ -1,12 +1,12 @@
 import InputLabel from "@/Components/InputLabel.jsx"
 import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
-import Select from "react-select"
 import {useEffect, useState} from "react"
+import InputSelect from "@/Components/InputSelect.jsx";
 
 const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) => {
     return (
-        <div id={nextIndex} className={"mt-3 flex flex-row gap-5 w-2/3"}>
+        <div id={'new-event-' + nextIndex} className={"mt-3 flex flex-row gap-5 w-2/3"}>
             <div className={"w-1/4"}>
                 <InputLabel htmlFor={"event_name-" + nextIndex} value="Event Name" isRequired={true}/>
                 <TextInput
@@ -41,7 +41,11 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
                 <InputLabel htmlFor={"event_date-" + nextIndex} value="Event Date" isRequired={true}/>
                 <TextInput
                     id={"event_date-" + nextIndex}
-                    value={data.event_date[nextIndex]}
+                    value={
+                        data.event_date[nextIndex]
+                            ? new Date(data.event_date[nextIndex]).toISOString().split('T')[0]
+                            : data.event_date[nextIndex]
+                    }
                     onChange={(e) => {
                         let newData = data
                         newData.event_date[nextIndex] = e.target.value
@@ -76,16 +80,19 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
                         className={"mt-8 bg-red-500 p-1 rounded text-white"}
                         onClick={(e) => {
                             e.preventDefault()
-                            let ele = document.getElementById(nextIndex)
+                            let ele = document.getElementById('new-event-' + nextIndex)
                             ele.remove()
 
                             let newData = data
                             newData.event_name.splice(nextIndex, 1)
                             newData.event_location.splice(nextIndex, 1)
                             newData.event_date.splice(nextIndex, 1)
+                            newData.event_time.splice(nextIndex, 1)
+
                             setData("event_name", newData.event_name)
                             setData("event_location", newData.event_location)
                             setData("event_date", newData.event_date)
+                            setData("event_time", newData.event_time)
                         }}
                     >
                         <svg
@@ -105,16 +112,17 @@ const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) 
     )
 }
 
-export default function PackageForm({data, setData, errors, refs, attributes}) {
+export default function PackageForm({data, setData, errors, refs, attributes, isEdit}) {
     const [showCharges, setShowCharges] = useState(false)
-    const [additionalEvents, setAdditionalEvents] = useState([])
-    const [eventCount, setEventCount] = useState(0)
+    const [eventCount, setEventCount] = useState(1)
 
-    const addAdditionalEvent = () => {
-        let nextIndex = eventCount + 1
-        setEventCount(nextIndex)
-        setAdditionalEvents([...additionalEvents, eventInput(nextIndex, data, setData, errors, true)])
-    }
+    useEffect(() => {
+        setShowCharges(isEdit)
+        if (isEdit) {
+            setEventCount(isEdit ? data.event_name.length : eventCount)
+        }
+
+    }, [isEdit, data.event_name]);
 
     return (
         <div>
@@ -135,52 +143,77 @@ export default function PackageForm({data, setData, errors, refs, attributes}) {
             <span className={"flex flex-row gap-3 w-2/3"}>
                 <div className={"mt-3 w-1/3"}>
                     <InputLabel htmlFor="client" value="Client Name" isRequired={true}/>
-                    <Select
+                    <InputSelect
                         id="client"
-                        ref={refs.clientInput}
-                        onChange={(e) => setData("client", e.value)}
-                        options={attributes.clientsOptions}
+                        onChange={(e) => setData("client", e.target.value)}
                         className="mt-1 w-full"
                         autoComplete="client"
-                    />
+                    >
+                        <option value="0">Select Client</option>
+                        {attributes.clientsOptions.map((client, index) => (
+                            <option key={'client-' + index} value={client.value}
+                                    selected={client.value === data.client}
+                            >
+                                {client.label}
+                            </option>
+                        ))}
+                    </InputSelect>
                     <InputError message={errors.client} className="mt-2"/>
                 </div>
                 <div className={"mt-3 w-1/3"}>
                     <InputLabel htmlFor="job_type" value="Job Type" isRequired={true}/>
-                    <Select
+                    <InputSelect
                         id="job_type"
-                        ref={refs.jobTypeInput}
-                        onChange={(e) => setData("job_type", e.value)}
-                        options={attributes.jobTypesOptions}
+                        onChange={(e) => setData("job_type", e.target.value)}
                         className="mt-1 w-full"
                         autoComplete="job_type"
-                    />
+                    >
+                        <option value="0">Select Job Type</option>
+                        {attributes.jobTypesOptions.map((jobType, index) => (
+                            <option key={'job-type' + index} value={jobType.value}
+                                    selected={jobType.value === data.job_type}
+                            >
+                                {jobType.label}
+                            </option>
+                        ))}
+                    </InputSelect>
                     <InputError message={errors.job_type} className="mt-2"/>
                 </div>
                 <div className={"mt-3 w-1/3"}>
                     <InputLabel htmlFor="package_type" value="Package" isRequired={true}/>
-                    <Select
+                    <InputSelect
                         id="package_type"
-                        ref={refs.packageInput}
                         onChange={(e) => {
-                            setData("package_type", e.value)
+                            setData("package_type", e.target.value)
                             setShowCharges(false)
-                            fetch(route("package.show", e.value))
+                            if (e.target.value === '0') {
+                                return
+                            }
+
+                            fetch(route("package.show", e.target.value))
                                 .then((response) => response.json())
                                 .then((packageData) => {
                                     setData({
                                         ...data,
                                         charges: packageData.charges,
                                         initial_deposits: packageData.initial_deposits,
-                                        package_type: e.value
+                                        package_type: e.target.value
                                     })
                                     setShowCharges(true)
                                 })
                         }}
-                        options={attributes.packagesOptions}
                         className="mt-1 w-full"
                         autoComplete="package_type"
-                    />
+                    >
+                        <option value="0">Select Package</option>
+                        {attributes.packagesOptions.map((packageType, index) => (
+                            <option key={'package-' + index} value={packageType.value}
+                                    selected={packageType.value === data.package_type}
+                            >
+                                {packageType.label}
+                            </option>
+                        ))}
+                    </InputSelect>
                     <InputError message={errors.package_type} className="mt-2"/>
                 </div>
             </span>
@@ -213,10 +246,16 @@ export default function PackageForm({data, setData, errors, refs, attributes}) {
                 </div>
             </span>
             <h5 className={"mt-5 text-lg font-bold"}>Events</h5>
-            <div className={"mt-3"}>{eventInput(0, data, setData, errors, false)}</div>
-            {additionalEvents.map((service, index) => {
-                return <div key={index}>{service}</div>
-            })}
+
+            <div className={"mt-3"}>
+                {
+                    Array(eventCount).fill(null).map((_, index) => {
+                        return <span key={'event-loop-' + index}>
+                            {eventInput(index, data, setData, errors, !!index)}
+                        </span>
+                    })
+                }
+            </div>
 
             <div className={"mt-3"}>
                 <span className={"has-tooltip"}>
@@ -227,7 +266,7 @@ export default function PackageForm({data, setData, errors, refs, attributes}) {
                         className={"mt-1 bg-yellow-500 p-1 rounded text-white w-2/3 hover:bg-yellow-600"}
                         onClick={(e) => {
                             e.preventDefault()
-                            addAdditionalEvent()
+                            setEventCount(eventCount + 1)
                         }}
                     >
                         <span className={"flex justify-center"}>

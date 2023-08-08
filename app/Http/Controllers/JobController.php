@@ -38,9 +38,16 @@ class JobController extends Controller
         ]);
     }
 
-    public function create(): Response|ResponseFactory
+    public function edit(UserJob $job): Response|ResponseFactory
     {
-        return inertia('Job/Create')->with($this->jobAttributes());
+        $job->load('events');
+        $job->load('client');
+        $job->load('jobType');
+        $job->load('package');
+
+        return inertia('Job/Edit')->with(array_merge($this->jobAttributes(), [
+            'job' => $job,
+        ]));
     }
 
     private function jobAttributes(): array
@@ -89,6 +96,50 @@ class JobController extends Controller
         );
 
         return back();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function update(UserJob $job, Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'client' => ['required', 'exists:clients,uuid'],
+            'job_type' => ['required', 'exists:job_types,uuid'],
+            'package_type' => ['required', 'exists:packages,uuid'],
+            'charges' => ['required', 'numeric'],
+            'initial_deposits' => ['required', 'numeric'],
+            'event_name' => ['required', 'array'],
+            'event_name.*' => ['required', 'string', 'max:255'],
+            'event_date' => ['required', 'array'],
+            'event_date.*' => ['required', 'date', 'after_or_equal:today'],
+            'event_time' => ['required', 'array'],
+            'event_time.*' => ['required', 'date_format:H:i'],
+            'event_location' => ['required', 'array'],
+            'event_location.*' => ['required', 'string', 'max:255'],
+        ]);
+
+        $this->jobRepository->update(
+            $job,
+            $validated['name'],
+            Client::uuidToId($validated['client']),
+            JobType::uuidToId($validated['job_type']),
+            Package::uuidToId($validated['package_type']),
+            $validated['charges'],
+            $validated['initial_deposits'],
+            $validated['event_name'],
+            $validated['event_date'],
+            $validated['event_time'],
+            $validated['event_location'],
+        );
+
+        return back();
+    }
+
+    public function create(): Response|ResponseFactory
+    {
+        return inertia('Job/Create')->with($this->jobAttributes());
     }
 
     public function destroy(UserJob $job)

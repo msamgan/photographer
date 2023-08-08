@@ -9,9 +9,6 @@ import InputError from "@/Components/InputError.jsx"
 
 export default function PackageCreate({auth, clients, jobTypes, packages}) {
     const nameInput = useRef()
-    const clientInput = useRef()
-    const jobTypeInput = useRef()
-    const packageInput = useRef()
     const chargesInput = useRef()
     const initialDepositsInput = useRef()
 
@@ -53,16 +50,19 @@ export default function PackageCreate({auth, clients, jobTypes, packages}) {
         e.preventDefault()
         post(route("job.store"), {
             preserveScroll: true,
-            onSuccess: () => reset(),
+            onSuccess: () => {
+                reset()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 500)
+            },
             onError: (errors) => {
                 if (errors.name) {
                     reset("name")
                 }
             },
             onFinish: () => {
-                setTimeout(() => {
-                    window.location.reload()
-                }, 500)
+                //
             }
         })
     }
@@ -90,9 +90,6 @@ export default function PackageCreate({auth, clients, jobTypes, packages}) {
                         errors={errors}
                         refs={{
                             nameInput,
-                            clientInput,
-                            jobTypeInput,
-                            packageInput,
                             chargesInput,
                             initialDepositsInput
                         }}
@@ -101,6 +98,7 @@ export default function PackageCreate({auth, clients, jobTypes, packages}) {
                             jobTypesOptions,
                             packagesOptions
                         }}
+                        isEdit={false}
                     ></Form>
                     <div className="flex items-center gap-4">
                         <PrimaryButton disabled={processing}>Save</PrimaryButton>
