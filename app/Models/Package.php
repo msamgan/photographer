@@ -17,6 +17,7 @@ class Package extends Model
         'name',
         'description',
         'charges',
+        'initial_deposits',
         'user_id',
         'uuid',
     ];

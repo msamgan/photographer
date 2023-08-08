@@ -14,7 +14,7 @@ class JobTypeController extends Controller
 {
     public function index(): Response|ResponseFactory
     {
-        return inertia('JobType/Index')->with('jobTypes', auth()->user()->jobTypes()->orderBy('name')->get());
+        return inertia('JobType/Index')->with('jobTypes', JobType::userJobType(auth()->user()));
     }
 
     public function store(Request $request): RedirectResponse

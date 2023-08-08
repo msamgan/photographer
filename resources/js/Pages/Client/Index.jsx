@@ -72,7 +72,7 @@ export default function PackageListing({auth, clients}) {
                                     <td className="px-6 py-4">
                                         {listing.spouse_name}
                                     </td>
-                                    <td className="px-6 py-4">{listing.full_address}</td>
+                                    <td className="px-6 py-4 sm:max-w-sm">{listing.full_address}</td>
                                     <td className="px-6 py-4">{listing.email}</td>
                                     <td className="px-6 py-4">{listing.phone}</td>
                                     <td className="px-6 py-4">

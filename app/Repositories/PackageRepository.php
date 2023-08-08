@@ -21,6 +21,7 @@ class PackageRepository
         int    $userId,
         string $name,
         float  $charges,
+        float  $initialDeposits,
         string $description = null,
     ): Package
     {
@@ -29,6 +30,7 @@ class PackageRepository
             'name' => strtolower($name),
             'description' => strtolower($description),
             'charges' => $charges,
+            'initial_deposits' => $initialDeposits,
             'user_id' => $userId,
         ]);
     }
@@ -37,6 +39,7 @@ class PackageRepository
         Package $package,
         string  $name,
         float   $charges,
+        float   $initialDeposits,
         string  $description = null,
     ): Package
     {
@@ -44,6 +47,7 @@ class PackageRepository
             'name' => strtolower($name),
             'description' => strtolower($description),
             'charges' => $charges,
+            'initial_deposits' => $initialDeposits,
         ]);
 
         return $package;
@@ -56,7 +60,7 @@ class PackageRepository
     {
         return Package::query()
             ->with('services')
-            ->select(['uuid', 'name', 'description', 'charges', 'id'])
+            ->select(['uuid', 'name', 'description', 'charges', 'initial_deposits', 'id'])
             ->where('user_id', $userId)->get();
     }
 

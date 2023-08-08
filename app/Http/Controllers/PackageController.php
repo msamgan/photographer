@@ -42,12 +42,14 @@ class PackageController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'charges' => ['required', 'numeric'],
+            "initial_deposits" => ['required', 'numeric'],
         ]);
 
         $this->packageRepository->store(
             auth()->id(),
             $validated['name'],
             $validated['charges'],
+            $validated['initial_deposits'],
             $request->get('description'),
         );
 
@@ -64,16 +66,25 @@ class PackageController extends Controller
         $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'charges' => ['required', 'numeric'],
+            'initial_deposits' => ['required', 'numeric'],
         ]);
 
         $this->packageRepository->update(
             $package,
             $validated['name'],
             $validated['charges'],
+            $validated['initial_deposits'],
             request()->get('description'),
         );
 
         return back();
+    }
+
+    public function show(Package $package): Package
+    {
+        $package->load('services');
+
+        return $package;
     }
 
     public function packageServices(Package $package): Response

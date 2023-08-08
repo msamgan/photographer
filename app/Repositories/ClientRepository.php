@@ -54,7 +54,6 @@ class ClientRepository
     }
 
 
-
     public function userClients(int $userId): Collection|array
     {
         return Client::query()

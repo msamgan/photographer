@@ -22,7 +22,8 @@ export default function PackageEdit({auth, packageData}) {
         setData({
             name: packageData.name,
             description: packageData.description,
-            charges: packageData.charges
+            charges: packageData.charges,
+            initial_deposits: packageData.initial_deposits
         })
     }, [])
 

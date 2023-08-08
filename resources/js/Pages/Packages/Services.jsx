@@ -42,7 +42,7 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
                         setData("description", newData.description)
                     }}
                     type="text"
-                    className="mt-1 w-full"
+                    className="mt-1 w-3/4"
                     autoComplete="description"
                 />
             </div>
@@ -124,7 +124,6 @@ export default function PackageServices({ auth, packageData }) {
     const addAdditionalService = () => {
         let nextIndex = servicesCount + 1
         setServicesCount(nextIndex)
-        //setRenderAdditionalServices(true)
         setAdditionalServices([...additionalServices, serviceInputs(nextIndex, data, setData, errors, true)])
     }
 

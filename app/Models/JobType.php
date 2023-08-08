@@ -19,6 +19,11 @@ class JobType extends Model
         'name',
     ];
 
+    public static function userJobType($user)
+    {
+        return $user->jobTypes()->orderBy('name')->get();
+    }
+
     public function getRouteKeyName(): string
     {
         return 'uuid';
@@ -28,6 +33,4 @@ class JobType extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-
 }
