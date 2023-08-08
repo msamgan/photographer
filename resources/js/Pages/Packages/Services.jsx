@@ -10,8 +10,8 @@ import InputError from "@/Components/InputError.jsx"
 
 const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = false) => {
     return (
-        <div id={nextIndex} className={"mt-3 flex flex-row gap-5"}>
-            <div className={"w-1/4"}>
+        <div id={nextIndex} className={"mt-3 flex flex-row gap-5 w-2/3"}>
+            <div className={"w-1/3"}>
                 <InputLabel htmlFor={"name-" + nextIndex} value="Service Name" isRequired={true} />
                 <TextInput
                     value={data.name[nextIndex]}
@@ -27,7 +27,7 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
                     isFocused={true}
                 />
             </div>
-            <div className={"w-full"}>
+            <div className={"w-2/3"}>
                 <InputLabel
                     htmlFor={"description-" + nextIndex}
                     value="Service Description"
@@ -85,8 +85,7 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
 }
 
 export default function PackageServices({ auth, packageData }) {
-    const [additionalServices, setAdditionalServices] = useState([])
-    const [servicesCount, setServicesCount] = useState(0)
+    const [servicesCount, setServicesCount] = useState(1)
 
     const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: [],
@@ -96,7 +95,7 @@ export default function PackageServices({ auth, packageData }) {
     const updateData = async (services) => {
         let name = []
         let description = []
-        packageData.services.map((service, index) => {
+        services.map((service, index) => {
             name[index] = service.name
             description[index] = service.description
         })
@@ -108,46 +107,30 @@ export default function PackageServices({ auth, packageData }) {
     }
 
     useEffect(() => {
-        if (packageData.services.length > 0) {
-            setServicesCount(packageData.services.length - 1)
-
-            async function fetchData() {
-                await updateData(packageData.services)
-            }
-
-            fetchData().then((r) => {
-                // console.log('Data updated')
-            })
+        if (packageData.services.length === 0) {
+            return
         }
-    }, [])
 
-    const addAdditionalService = () => {
-        let nextIndex = servicesCount + 1
-        setServicesCount(nextIndex)
-        //setRenderAdditionalServices(true)
-        setAdditionalServices([...additionalServices, serviceInputs(nextIndex, data, setData, errors, true)])
-    }
+        setServicesCount(packageData.services.length)
+
+        async function fetchData() {
+            await updateData(packageData.services)
+        }
+
+        fetchData().then((r) => {
+            // console.log('Data updated')
+        })
+    }, [])
 
     const submit = (e) => {
         e.preventDefault()
-        //setRenderAdditionalServices(false)
         post(route("package.services.store", packageData.uuid), {
             preserveScroll: true,
-            onSuccess: () => {
-                // console.log('success')
-            },
-            onError: (errors) => {
-                // console.log(errors)
-            },
-            onFinish: () => {
-                setAdditionalServices([])
-            }
+            onSuccess: () => {},
+            onError: (errors) => {},
+            onFinish: () => {}
         })
     }
-
-    useEffect(() => {
-        console.log("additionalServices", additionalServices)
-    }, [additionalServices])
 
     return (
         <AuthenticatedLayout
@@ -177,48 +160,47 @@ export default function PackageServices({ auth, packageData }) {
                 )}
 
                 <form onSubmit={submit} method={"post"} className="mt-6 space-y-6">
-                    {packageData.services.length > 0 &&
-                        packageData.services.map((service, index) => {
+                    {Array(servicesCount)
+                        .fill(null)
+                        .map((_, index) => {
                             return <div key={index}>{serviceInputs(index, data, setData, errors, !!index)}</div>
                         })}
 
-                    {packageData.services &&
-                        packageData.services.length === 0 &&
-                        serviceInputs(0, data, setData, errors)}
-
-                    {additionalServices.map((service, index) => {
-                        return <div key={index}>{service}</div>
-                    })}
-
-                    <div className="flex items-center gap-4">
-                        <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <div className={"mt-4 w-2/3"}>
                         <span className={"has-tooltip"}>
                             <span className="tooltip rounded shadow-lg p-2 bg-gray-100 text-black -mt-8">
                                 Add more services to package
                             </span>
                             <button
-                                className={"mt-1 bg-yellow-500 p-1 rounded text-white"}
+                                className={"mt-1 bg-yellow-500 p-1 rounded text-white w-full"}
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    addAdditionalService()
+                                    setServicesCount(servicesCount + 1)
                                 }}
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M12 4.5v15m7.5-7.5h-15"
-                                    />
-                                </svg>
+                                <span className={"flex flex-row justify-center"}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 mr-2"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 4.5v15m7.5-7.5h-15"
+                                        />
+                                    </svg>
+                                    Add Service
+                                </span>
                             </button>
                         </span>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <PrimaryButton disabled={processing}>Save</PrimaryButton>
                         <TransactionNotification recentlySuccessful={recentlySuccessful} />
                     </div>
                 </form>

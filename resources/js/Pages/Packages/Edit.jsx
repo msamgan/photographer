@@ -1,17 +1,17 @@
-import {useEffect, useRef} from "react"
-import {Head, useForm} from "@inertiajs/react"
+import { useEffect, useRef } from "react"
+import { Head, useForm } from "@inertiajs/react"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import PageCard from "@/Components/PageCard.jsx"
 import Form from "@/Pages/Packages/Form.jsx"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import TransactionNotification from "@/Components/TransactionNotification.jsx"
 
-export default function PackageEdit({auth, packageData}) {
+export default function PackageEdit({ auth, packageData }) {
     const nameInput = useRef()
     const chargesInput = useRef()
     const initialDepositsInput = useRef()
 
-    const {data, setData, errors, post, reset, processing, recentlySuccessful} = useForm({
+    const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: "",
         description: "",
         charges: "",
@@ -22,7 +22,8 @@ export default function PackageEdit({auth, packageData}) {
         setData({
             name: packageData.name,
             description: packageData.description,
-            charges: packageData.charges
+            charges: packageData.charges,
+            initial_deposits: packageData.initial_deposits
         })
     }, [])
 
@@ -58,7 +59,7 @@ export default function PackageEdit({auth, packageData}) {
                 </h2>
             }
         >
-            <Head title={"Edit Package | " + packageData.name}/>
+            <Head title={"Edit Package | " + packageData.name} />
 
             <PageCard
                 header={"Edit " + packageData.name + " Package"}
@@ -69,17 +70,15 @@ export default function PackageEdit({auth, packageData}) {
                         data={data}
                         setData={setData}
                         errors={errors}
-                        refs={
-                            {
-                                nameInput,
-                                chargesInput,
-                                initialDepositsInput
-                            }
-                        }
+                        refs={{
+                            nameInput,
+                            chargesInput,
+                            initialDepositsInput
+                        }}
                     ></Form>
                     <div className="flex items-center gap-4">
                         <PrimaryButton disabled={processing}>Save</PrimaryButton>
-                        <TransactionNotification recentlySuccessful={recentlySuccessful}/>
+                        <TransactionNotification recentlySuccessful={recentlySuccessful} />
                     </div>
                 </form>
             </PageCard>

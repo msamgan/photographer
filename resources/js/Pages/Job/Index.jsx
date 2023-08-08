@@ -7,30 +7,28 @@ import { useEffect, useState } from "react"
 import EditLinkIcon from "@/Components/EditLinkIcon.jsx"
 import DeleteLinkIcon from "@/Components/DeleteLinkIcon.jsx"
 
-export default function PackageListing({ auth, clients }) {
+export default function PackageListing({ auth, jobs }) {
     const [listings, setListings] = useState([])
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        setListings(clients)
+        setListings(jobs)
         setLoading(false)
     }, [])
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Listing Clients</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Listing Jobs</h2>}
         >
-            <Head title="Clients" />
+            <Head title="Jobs" />
 
-            <AddLinkButton link={route("client.create")} label="Add Client" />
+            <AddLinkButton link={route("job.create")} label="Add Job" />
 
             <PageCard
-                header={"Listing Clients"}
-                header_description={
-                    "All your available clients. You have total of " + listings.length + " clients."
-                }
+                header={"Listing Jobs"}
+                header_description={"All your available jobs. You have total of " + listings.length + " jobs."}
             >
                 {loading && <div className={"py-3"}>Loading...</div>}
                 {listings.length === 0 && <div className={"py-3"}>No records found.</div>}
@@ -42,16 +40,19 @@ export default function PackageListing({ auth, clients }) {
                                     Name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Spouse Name
+                                    client
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Address
+                                    Type
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Email
+                                    Total Events
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Phone
+                                    Registration Date
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Status
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     Action
@@ -68,17 +69,38 @@ export default function PackageListing({ auth, clients }) {
                                         <td className="px-6 py-4" scope="row">
                                             {listing.name}
                                         </td>
-                                        <td className="px-6 py-4">{listing.spouse_name}</td>
-                                        <td className="px-6 py-4 sm:max-w-sm">{listing.full_address}</td>
-                                        <td className="px-6 py-4">{listing.email}</td>
-                                        <td className="px-6 py-4">{listing.phone}</td>
+                                        <td className="px-6 py-4" scope="row">
+                                            {listing.client.name}
+                                        </td>
+                                        <td className="px-6 py-4">{listing.job_type.name}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={"has-tooltip"}>
+                                                <span className="tooltip rounded shadow-lg p-2 bg-gray-100 text-black -mt-8">
+                                                    <ul>
+                                                        {listing.events.map((event, index) => {
+                                                            return (
+                                                                <li key={index}>
+                                                                    {event.event_name} on {event.event_date} at{" "}
+                                                                    {event.event_time}
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                </span>
+                                                <span className={"text-blue-800 text-lg cursor-pointer"}>
+                                                    {listing.events.length}
+                                                </span>
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4">{listing.created_at}</td>
+                                        <td className="px-6 py-4">{listing.status}</td>
                                         <td className="px-6 py-4">
                                             <EditLinkIcon
-                                                link={route("client.edit", listing.uuid)}
+                                                link={route("job.edit", listing.uuid)}
                                                 lable={" Edit"}
                                             />
                                             <DeleteLinkIcon
-                                                link={route("client.destroy", listing.uuid)}
+                                                link={route("job.destroy", listing.uuid)}
                                                 label={"Delete"}
                                             />
                                         </td>

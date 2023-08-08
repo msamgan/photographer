@@ -1,23 +1,23 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
-import {Head, useForm} from "@inertiajs/react"
+import { Head, useForm } from "@inertiajs/react"
 import PageCard from "@/Components/PageCard.jsx"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
-import {useRef} from "react"
+import { useRef } from "react"
 import TransactionNotification from "@/Components/TransactionNotification.jsx"
 import Form from "@/Pages/Client/Form.jsx"
 
-export default function PackageCreate({auth}) {
+export default function PackageCreate({ auth }) {
     const nameInput = useRef()
     const fullAddressInput = useRef()
     const emailInput = useRef()
     const phoneInput = useRef()
 
-    const {data, setData, errors, post, reset, processing, recentlySuccessful} = useForm({
+    const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: "",
         spouse_name: "",
         full_address: "",
         email: "",
-        phone: "",
+        phone: ""
     })
 
     const submit = (e) => {
@@ -60,7 +60,7 @@ export default function PackageCreate({auth}) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create Client</h2>}
         >
-            <Head title="Create Client"/>
+            <Head title="Create Client" />
 
             <PageCard header={"Create Client"} header_description={"Create a new client."}>
                 <form onSubmit={submit} method={"post"} className="mt-6 space-y-6">
@@ -68,18 +68,16 @@ export default function PackageCreate({auth}) {
                         data={data}
                         setData={setData}
                         errors={errors}
-                        refs={
-                            {
-                                nameInput,
-                                fullAddressInput,
-                                emailInput,
-                                phoneInput
-                            }
-                        }
+                        refs={{
+                            nameInput,
+                            fullAddressInput,
+                            emailInput,
+                            phoneInput
+                        }}
                     ></Form>
                     <div className="flex items-center gap-4">
                         <PrimaryButton disabled={processing}>Save</PrimaryButton>
-                        <TransactionNotification recentlySuccessful={recentlySuccessful}/>
+                        <TransactionNotification recentlySuccessful={recentlySuccessful} />
                     </div>
                 </form>
             </PageCard>

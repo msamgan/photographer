@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('jobTypes')) {
+if (! function_exists('jobTypes')) {
     function jobTypes(): array
     {
         return [

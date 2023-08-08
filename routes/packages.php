@@ -13,4 +13,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/packages/{package}/update', [PackageController::class, 'update'])->name('package.update');
     Route::get('/packages/{package}/destroy', [PackageController::class, 'destroy'])->name('package.destroy');
     Route::get('/packages/{package}/replicate', [PackageController::class, 'replicate'])->name('package.replicate');
+    Route::get('/packages/{package}', [PackageController::class, 'show'])->name('package.show');
 });
