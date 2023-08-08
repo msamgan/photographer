@@ -24,7 +24,6 @@ const serviceInputs = (nextIndex, data, setData, errors, showRemoveButton = fals
                     type="text"
                     className="mt-1 w-full"
                     autoComplete="name"
-                    isFocused={true}
                 />
             </div>
             <div className={"w-2/3"}>
@@ -126,9 +125,12 @@ export default function PackageServices({ auth, packageData }) {
         e.preventDefault()
         post(route("package.services.store", packageData.uuid), {
             preserveScroll: true,
-            onSuccess: () => {},
-            onError: (errors) => {},
-            onFinish: () => {}
+            onSuccess: () => {
+            },
+            onError: (errors) => {
+            },
+            onFinish: () => {
+            }
         })
     }
 

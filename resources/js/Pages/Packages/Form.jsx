@@ -15,7 +15,6 @@ export default function PackageForm({ data, setData, errors, refs }) {
                     type="text"
                     className="mt-1 w-1/2"
                     autoComplete="name"
-                    isFocused={true}
                 />
                 <InputError message={errors.name} className="mt-2" />
             </div>
