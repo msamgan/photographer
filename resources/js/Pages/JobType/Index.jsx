@@ -11,18 +11,11 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import TransactionNotification from "@/Components/TransactionNotification.jsx"
 
 export default function PackageListing({ auth, jobTypes }) {
-    const [listings, setListings] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [listings, setListings] = useState(jobTypes)
     const nameInput = useRef()
     const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: ""
     })
-
-    useEffect(() => {
-        setLoading(true)
-        setListings(jobTypes)
-        setLoading(false)
-    }, [])
 
     const submit = (e) => {
         e.preventDefault()
@@ -79,9 +72,8 @@ export default function PackageListing({ auth, jobTypes }) {
                     "All your available Job Types. You have total of " + listings.length + " Job Types."
                 }
             >
-                {loading && <div className={"py-3"}>Loading...</div>}
                 {listings.length === 0 && <div className={"py-3"}>No records found.</div>}
-                {!loading && listings.length > 0 && (
+                {listings.length > 0 && (
                     <ListingTable>
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
