@@ -1,5 +1,5 @@
 import NavLink from "@/Components/NavLink.jsx"
-import {router} from "@inertiajs/react";
+import { router } from "@inertiajs/react"
 
 /**
  * Check if the current route is a package route
@@ -16,19 +16,11 @@ const isPackageRoute = (route) => {
 }
 
 const isClientRoute = (route) => {
-    return (
-        route().current("client.index") ||
-        route().current("client.create") ||
-        route().current("client.edit")
-    )
+    return route().current("client.index") || route().current("client.create") || route().current("client.edit")
 }
 
 const isJobRoute = (route) => {
-    return (
-        route().current("job.index") ||
-        route().current("job.create") ||
-        route().current("job.edit")
-    )
+    return route().current("job.index") || route().current("job.create") || route().current("job.edit")
 }
 
 /**
@@ -93,7 +85,7 @@ export default function Navigation() {
                     </svg>
                     Packages
                 </NavLink>
-                <NavLink href={route('client.index')} active={isClientRoute(route)}>
+                <NavLink href={route("client.index")} active={isClientRoute(route)}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -110,7 +102,7 @@ export default function Navigation() {
                     </svg>
                     Clients
                 </NavLink>
-                <NavLink href={route('job.index')} active={isJobRoute(route)}>
+                <NavLink href={route("job.index")} active={isJobRoute(route)}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

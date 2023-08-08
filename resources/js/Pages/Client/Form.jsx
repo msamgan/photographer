@@ -2,12 +2,12 @@ import InputLabel from "@/Components/InputLabel.jsx"
 import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 
-export default function PackageForm({data, setData, errors, refs}) {
+export default function PackageForm({ data, setData, errors, refs }) {
     return (
         <div>
-            <span className={'flex flex-row gap-3'}>
+            <span className={"flex flex-row gap-3"}>
                 <div className={"mt-3 w-1/2"}>
-                    <InputLabel htmlFor="name" value="Client Name" isRequired={true}/>
+                    <InputLabel htmlFor="name" value="Client Name" isRequired={true} />
                     <TextInput
                         id="name"
                         ref={refs.nameInput}
@@ -18,10 +18,10 @@ export default function PackageForm({data, setData, errors, refs}) {
                         autoComplete="name"
                         isFocused={true}
                     />
-                    <InputError message={errors.name} className="mt-2"/>
+                    <InputError message={errors.name} className="mt-2" />
                 </div>
                 <div className={"mt-3 w-full"}>
-                    <InputLabel htmlFor="spouse_name" value="Spouse Name"/>
+                    <InputLabel htmlFor="spouse_name" value="Spouse Name" />
                     <TextInput
                         id="spouse_name"
                         value={data.spouse_name}
@@ -30,11 +30,11 @@ export default function PackageForm({data, setData, errors, refs}) {
                         className="mt-1 w-1/4"
                         autoComplete="spouse_name"
                     />
-                    <InputError message={errors.spouse_name} className="mt-2"/>
+                    <InputError message={errors.spouse_name} className="mt-2" />
                 </div>
             </span>
             <div className={"mt-3"}>
-                <InputLabel htmlFor="email" value="Client Email" isRequired={true}/>
+                <InputLabel htmlFor="email" value="Client Email" isRequired={true} />
                 <TextInput
                     id="email"
                     ref={refs.emailInput}
@@ -44,10 +44,10 @@ export default function PackageForm({data, setData, errors, refs}) {
                     className="mt-1 w-1/2"
                     autoComplete="email"
                 />
-                <InputError message={errors.email} className="mt-2"/>
+                <InputError message={errors.email} className="mt-2" />
             </div>
             <div className={"mt-3"}>
-                <InputLabel htmlFor="phone" value="Client Phone" isRequired={true}/>
+                <InputLabel htmlFor="phone" value="Client Phone" isRequired={true} />
                 <TextInput
                     id="phone"
                     ref={refs.phoneInput}
@@ -57,10 +57,10 @@ export default function PackageForm({data, setData, errors, refs}) {
                     className="mt-1 w-1/2"
                     autoComplete="phone"
                 />
-                <InputError message={errors.phone} className="mt-2"/>
+                <InputError message={errors.phone} className="mt-2" />
             </div>
             <div className={"mt-3"}>
-                <InputLabel htmlFor="full_address" value="Full Address" isRequired={true}/>
+                <InputLabel htmlFor="full_address" value="Full Address" isRequired={true} />
                 <textarea
                     ref={refs.fullAddressInput}
                     id="full_address"
@@ -69,7 +69,7 @@ export default function PackageForm({data, setData, errors, refs}) {
                     className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-1/2"
                     autoComplete="full_address"
                 />
-                <InputError message={errors.full_address} className="mt-2"/>
+                <InputError message={errors.full_address} className="mt-2" />
             </div>
         </div>
     )

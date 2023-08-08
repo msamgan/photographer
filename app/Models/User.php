@@ -53,4 +53,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(JobType::class);
     }
+
+    public function packages(): HasMany
+    {
+        return $this->hasMany(Package::class);
+    }
+
+    public function clients(): HasMany
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function jobs(): HasMany
+    {
+        return $this->hasMany(UserJob::class);
+    }
 }

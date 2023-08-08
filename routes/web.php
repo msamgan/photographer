@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
@@ -13,7 +12,7 @@ Route::get('/', function () {
     }
 
     return Inertia::render('Auth/Login',
-        ['canResetPassword' => Route::has('password.request'), 'status' => session('status'),]
+        ['canResetPassword' => Route::has('password.request'), 'status' => session('status')]
     );
 });
 
@@ -34,9 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/job-types/{jobType}/destroy', [JobTypeController::class, 'destroy'])->name('job-type.destroy');
 });
 
-require __DIR__ . '/clients.php';
-require __DIR__ . '/packages.php';
-require __DIR__ . '/profile.php';
-require __DIR__ . '/auth.php';
-
-
+require __DIR__.'/clients.php';
+require __DIR__.'/packages.php';
+require __DIR__.'/profile.php';
+require __DIR__.'/auth.php';

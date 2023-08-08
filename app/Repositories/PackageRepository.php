@@ -18,13 +18,12 @@ class PackageRepository
     }
 
     public function store(
-        int    $userId,
+        int $userId,
         string $name,
-        float  $charges,
-        float  $initialDeposits,
+        float $charges,
+        float $initialDeposits,
         string $description = null,
-    ): Package
-    {
+    ): Package {
         return Package::create([
             'uuid' => Str::uuid()->toString(),
             'name' => strtolower($name),
@@ -37,12 +36,11 @@ class PackageRepository
 
     public function update(
         Package $package,
-        string  $name,
-        float   $charges,
-        float   $initialDeposits,
-        string  $description = null,
-    ): Package
-    {
+        string $name,
+        float $charges,
+        float $initialDeposits,
+        string $description = null,
+    ): Package {
         $package->update([
             'name' => strtolower($name),
             'description' => strtolower($description),
@@ -105,7 +103,7 @@ class PackageRepository
 
             $newPackage = Package::create([
                 'uuid' => Str::uuid()->toString(),
-                'name' => $package->name . ' (replicated)',
+                'name' => $package->name.' (replicated)',
                 'description' => $package->description,
                 'charges' => $package->charges,
                 'user_id' => auth()->id(),

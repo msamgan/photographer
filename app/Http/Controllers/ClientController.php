@@ -86,6 +86,7 @@ class ClientController extends Controller
     {
         try {
             $client->delete();
+
             return back();
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Something went wrong']);

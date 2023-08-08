@@ -22,6 +22,11 @@ class Package extends Model
         'uuid',
     ];
 
+    public static function uuidToId($uuid): int|null
+    {
+        return self::query()->select(['id'])->where('uuid', $uuid)->first()->id ?? null;
+    }
+
     public function getRouteKeyName(): string
     {
         return 'uuid';

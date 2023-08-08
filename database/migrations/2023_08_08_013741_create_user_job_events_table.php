@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_types', function (Blueprint $table) {
+        Schema::create('user_job_events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->uuid('uuid')->unique();
-            $table->string('name');
+            $table->foreignId('user_job_id')->constrained('user_jobs')->cascadeOnDelete();
+            $table->string('event_name');
+            $table->date('event_date');
+            $table->time('event_time');
+            $table->string('event_location');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('job_types');
+        Schema::dropIfExists('user_job_events');
     }
 };

@@ -11,6 +11,7 @@ use Inertia\Response;
 class DashboardController extends Controller
 {
     private PackageRepository $packageRepository;
+
     private ClientRepository $clientRepository;
 
     public function __construct(PackageRepository $packageRepository, ClientRepository $clientRepository)
@@ -26,7 +27,7 @@ class DashboardController extends Controller
     {
         return Inertia::render('Dashboard')->with([
             'packageCount' => $this->packageRepository->userPackagesCount(auth()->id()),
-            'clientCount' => $this->clientRepository->userClientsCount(auth()->id())
+            'clientCount' => $this->clientRepository->userClientsCount(auth()->id()),
         ]);
     }
 }

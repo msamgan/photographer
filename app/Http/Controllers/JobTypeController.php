@@ -35,6 +35,7 @@ class JobTypeController extends Controller
     {
         try {
             $jobType->delete();
+
             return back();
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Unable to delete job type.']);

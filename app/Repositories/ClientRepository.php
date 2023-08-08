@@ -14,14 +14,13 @@ class ClientRepository
     }
 
     public function store(
-        int    $userId,
+        int $userId,
         string $name,
         string $email,
         string $phone,
         string $address,
         string $spouseName = null,
-    ): Client
-    {
+    ): Client {
         return Client::create([
             'uuid' => Str::uuid()->toString(),
             'name' => strtolower($name),
@@ -40,8 +39,7 @@ class ClientRepository
         string $phone,
         string $address,
         string $spouseName = null,
-    ): Client
-    {
+    ): Client {
         $client->update([
             'name' => strtolower($name),
             'email' => strtolower($email),
@@ -52,7 +50,6 @@ class ClientRepository
 
         return $client;
     }
-
 
     public function userClients(int $userId): Collection|array
     {

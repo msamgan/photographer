@@ -42,7 +42,7 @@ class PackageController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'charges' => ['required', 'numeric'],
-            "initial_deposits" => ['required', 'numeric'],
+            'initial_deposits' => ['required', 'numeric'],
         ]);
 
         $this->packageRepository->store(
@@ -138,6 +138,7 @@ class PackageController extends Controller
     {
         try {
             $package->delete();
+
             return back();
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Something went wrong']);

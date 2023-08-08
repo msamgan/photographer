@@ -1,23 +1,23 @@
-import {useEffect, useRef} from "react"
-import {Head, useForm} from "@inertiajs/react"
+import { useEffect, useRef } from "react"
+import { Head, useForm } from "@inertiajs/react"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import PageCard from "@/Components/PageCard.jsx"
 import Form from "@/Pages/Client/Form.jsx"
 import PrimaryButton from "@/Components/PrimaryButton.jsx"
 import TransactionNotification from "@/Components/TransactionNotification.jsx"
 
-export default function PackageEdit({auth, client}) {
+export default function PackageEdit({ auth, client }) {
     const nameInput = useRef()
     const fullAddressInput = useRef()
     const emailInput = useRef()
     const phoneInput = useRef()
 
-    const {data, setData, errors, post, reset, processing, recentlySuccessful} = useForm({
+    const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
         name: "",
         spouse_name: "",
         full_address: "",
         email: "",
-        phone: "",
+        phone: ""
     })
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function PackageEdit({auth, client}) {
             spouse_name: client.spouse_name,
             full_address: client.full_address,
             email: client.email,
-            phone: client.phone,
+            phone: client.phone
         })
     }, [])
 
@@ -76,7 +76,7 @@ export default function PackageEdit({auth, client}) {
                 </h2>
             }
         >
-            <Head title={"Edit Client | " + client.name}/>
+            <Head title={"Edit Client | " + client.name} />
 
             <PageCard
                 header={"Edit " + client.name + " Client"}
@@ -87,18 +87,16 @@ export default function PackageEdit({auth, client}) {
                         data={data}
                         setData={setData}
                         errors={errors}
-                        refs={
-                            {
-                                nameInput,
-                                fullAddressInput,
-                                emailInput,
-                                phoneInput
-                            }
-                        }
+                        refs={{
+                            nameInput,
+                            fullAddressInput,
+                            emailInput,
+                            phoneInput
+                        }}
                     ></Form>
                     <div className="flex items-center gap-4">
                         <PrimaryButton disabled={processing}>Save</PrimaryButton>
-                        <TransactionNotification recentlySuccessful={recentlySuccessful}/>
+                        <TransactionNotification recentlySuccessful={recentlySuccessful} />
                     </div>
                 </form>
             </PageCard>

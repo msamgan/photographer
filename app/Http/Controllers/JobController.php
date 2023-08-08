@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\JobType;
+use App\Models\Package;
 use App\Repositories\ClientRepository;
+use App\Repositories\JobRepository;
 use App\Repositories\PackageRepository;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\ResponseFactory;
@@ -12,18 +17,22 @@ use Inertia\ResponseFactory;
 class JobController extends Controller
 {
     private ClientRepository $clientRepository;
+
     private PackageRepository $packageRepository;
 
-    public function __construct(ClientRepository $clientRepository, PackageRepository $packageRepository)
+    private JobRepository $jobRepository;
+
+    public function __construct(ClientRepository $clientRepository, PackageRepository $packageRepository, JobRepository $jobRepository)
     {
         $this->clientRepository = $clientRepository;
         $this->packageRepository = $packageRepository;
+        $this->jobRepository = $jobRepository;
     }
 
     public function index(): Response|ResponseFactory
     {
         return inertia('Job/Index')->with([
-            'jobs' => collect([])
+            'jobs' => collect([]),
         ]);
     }
 
@@ -41,7 +50,10 @@ class JobController extends Controller
         ];
     }
 
-    public function store(Request $request)
+    /**
+     * @throws Exception
+     */
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -60,7 +72,19 @@ class JobController extends Controller
             'event_location.*' => ['required', 'string', 'max:255'],
         ]);
 
-        dd($validated);
+        $this->jobRepository->store(
+            auth()->id(),
+            $validated['name'],
+            Client::uuidToId($validated['client']),
+            JobType::uuidToId($validated['job_type']),
+            Package::uuidToId($validated['package_type']),
+            $validated['charges'],
+            $validated['initial_deposits'],
+            $validated['event_name'],
+            $validated['event_date'],
+            $validated['event_time'],
+            $validated['event_location'],
+        );
 
         return back();
     }
