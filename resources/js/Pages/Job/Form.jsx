@@ -3,6 +3,7 @@ import TextInput from "@/Components/TextInput.jsx"
 import InputError from "@/Components/InputError.jsx"
 import { useEffect, useState } from "react"
 import InputSelect from "@/Components/InputSelect.jsx"
+import { Link } from "@inertiajs/react"
 
 const eventInput = (nextIndex, data, setData, errors, showRemoveButton = false) => {
     return (
@@ -158,6 +159,11 @@ export default function PackageForm({ data, setData, errors, refs, attributes, i
                             </option>
                         ))}
                     </InputSelect>
+                    <span className={'text-xs text-gray-500'}>
+                        <Link href={route("client.create")} className={''} >
+                            Add New Client
+                        </Link>
+                    </span>
                     <InputError message={errors.client} className="mt-2" />
                 </div>
                 <div className={"mt-3 w-1/3"}>
@@ -179,6 +185,11 @@ export default function PackageForm({ data, setData, errors, refs, attributes, i
                             </option>
                         ))}
                     </InputSelect>
+                    <span className={'text-xs text-gray-500'}>
+                        <Link href={route("job-type.index")} className={''} >
+                            Add New Job Type
+                        </Link>
+                    </span>
                     <InputError message={errors.job_type} className="mt-2" />
                 </div>
                 <div className={"mt-3 w-1/3"}>
@@ -218,6 +229,11 @@ export default function PackageForm({ data, setData, errors, refs, attributes, i
                             </option>
                         ))}
                     </InputSelect>
+                    <span className={'text-xs text-gray-500'}>
+                        <Link href={route("package.create")} className={''} >
+                            Add New Package
+                        </Link>
+                    </span>
                     <InputError message={errors.package_type} className="mt-2" />
                 </div>
             </span>

@@ -40,13 +40,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit');
     }
 
-    public function contractTemplate(Request $request): Response
-    {
-        return Inertia::render('Profile/ContractTemplate', [
-            'contractTemplate' => $request->user()->contract_template,
-        ]);
-    }
-
     /**
      * Delete the user's account.
      */
