@@ -64,7 +64,7 @@ export default function ProfileNavigation({ user }) {
                         Job Types
                     </span>
                 </Dropdown.Link>
-                <Dropdown.Link href={route("profile.contract.template")}>
+                <Dropdown.Link href={route("contract-template.index")}>
                     <span className={"flex flex-row"}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
